@@ -17,10 +17,6 @@ function Chat() {
     setMessage('');
   };
 
-  const onLogout: () => void = () => {
-    console.log('logging out...');
-  };
-
   return (
     <Box
       sx={{
@@ -30,7 +26,7 @@ function Chat() {
         position: 'relative',
       }}
     >
-      <NavHeader onLogout={onLogout} />
+      <NavHeader />
       <Box
         sx={{ height: 'calc(100vh - 64px - 88px)', p: 2, overflowY: 'scroll' }}
       >

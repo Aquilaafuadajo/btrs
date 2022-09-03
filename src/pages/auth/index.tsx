@@ -1,9 +1,15 @@
 import { useState } from 'react';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { setUser } from '../../store/userReducer';
 import { TextField, Box, Button, Typography } from '@mui/material';
+import { Navigate } from 'react-router-dom';
+import { RootState } from '../../store';
 
 function SignIn() {
   const [name, setName] = useState<string>('');
   const [error, setError] = useState<boolean>(false);
+  const user = useAppSelector((state: RootState) => state.user?.token);
+  const dispatch = useAppDispatch();
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -13,7 +19,7 @@ function SignIn() {
     } else {
       setError(false);
       const token = (Math.random() + 1).toString(36).substring(7);
-      console.log({ name, token });
+      dispatch(setUser({ name, token }));
     }
   };
 
@@ -24,6 +30,9 @@ function SignIn() {
       setError(false);
     }
   };
+  if (Boolean(user)) {
+    return <Navigate to="/chat-room" replace={true} />;
+  }
   return (
     <Box
       sx={{
