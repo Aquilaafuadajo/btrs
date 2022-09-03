@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { getNewMessages } from '../../utils/getNewMessages';
 
-type Message = {
+export type Message = {
   message: string;
   ownerId: string;
   ownerName: string;
@@ -8,7 +9,7 @@ type Message = {
 };
 
 const initialState: { messages: Message[] } = {
-  messages: [],
+  messages: getNewMessages(),
 };
 
 const chatReducer = createSlice({
@@ -17,10 +18,14 @@ const chatReducer = createSlice({
   reducers: {
     sendMessage: (state: typeof initialState, action: { payload: Message }) => {
       state.messages = [...state.messages, action.payload];
+      localStorage.setItem('wassup-storage', JSON.stringify(state.messages));
+    },
+    setMessages: (state: typeof initialState) => {
+      state.messages = getNewMessages();
     },
   },
 });
 
-export const { sendMessage } = chatReducer.actions;
+export const { sendMessage, setMessages } = chatReducer.actions;
 
 export default chatReducer.reducer;

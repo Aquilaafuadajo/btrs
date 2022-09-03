@@ -6,9 +6,18 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import './index.css';
 import { BrowserRouter } from 'react-router-dom';
+import { setMessages } from './store/chatReducer';
 
 const container = document.getElementById('root')!;
 const root = createRoot(container);
+
+window.addEventListener('storage', ({ key, newValue }) => {
+  if (key === 'wassup-storage') {
+    if (typeof newValue === 'string') {
+      store.dispatch(setMessages());
+    }
+  }
+});
 
 root.render(
   <React.StrictMode>
